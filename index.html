@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Aquarium</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #001b35;
+    font-family: Arial, sans-serif;
+}
+
+.aquarium {
+    width: 90%;
+    max-width: 1000px;
+    height: 550px;
+    position: relative;
+    overflow: hidden;
+    border: 10px solid #8be5ff;
+    border-radius: 25px;
+
+    background: linear-gradient(
+        to bottom,
+        #50d9f5,
+        #159bd0,
+        #07558e,
+        #00264f
+    );
+
+    box-shadow: 0 0 30px #00cfff;
+}
+
+/* Tiêu đề */
+.title {
+    position: absolute;
+    top: 18px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px #003b75;
+    z-index: 10;
+}
+
+/* Ánh sáng */
+.light {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        110deg,
+        transparent 0px,
+        transparent 100px,
+        rgba(255,255,255,0.12) 130px,
+        transparent 170px
+    );
+    animation: lightMove 7s linear infinite;
+}
+
+@keyframes lightMove {
+    from { transform: translateX(-100px); }
+    to { transform: translateX(100px); }
+}
+
+/* Vùng bơi của cá */
+.swimming-area {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 380px;
+    z-index: 5;
+}
+
+/* Cá */
+.fish {
+    position: absolute;
+    width: var(--w);
+    height: 55px;
+    left: 0;
+    top: var(--y);
+
+    animation: swim var(--speed) linear infinite;
+}
+
+/* Hình cá */
+.fish-art {
+    width: 100%;
+    height: 100%;
+    animation: turn var(--speed) linear infinite;
+}
+
+/* Cá bơi qua lại và dừng ngắn để quay đầu */
+@keyframes swim {
+    0% {
+        left: 2%;
+    }
+
+    45% {
+        left: calc(98% - var(--w));
+    }
+
+    55% {
+        left: calc(98% - var(--w));
+    }
+
+    95% {
+        left: 2%;
+    }
+
+    100% {
+        left: 2%;
+    }
+}
+
+/* Lật cá đúng lúc ở hai đầu */
+@keyframes turn {
+    0%, 44.9% {
+        transform: scaleX(1);
+    }
+
+    45%, 54.9% {
+        transform: scaleX(-1);
+    }
+
+    55%, 100% {
+        transform: scaleX(-1);
+    }
+}
+
+/* Bong bóng */
+.bubble {
+    position: absolute;
+    bottom: -30px;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    animation: rise var(--speed) linear infinite;
+    z-index: 3;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -30px;
+        opacity: 0;
+    }
+
+    20% { opacity: 0.8; }
+
+    100% {
+        bottom: 100%;
+        opacity: 0;
+    }
+}
+
+/* Rong biển */
+.seaweed {
+    position: absolute;
+    bottom: 22px;
+    font-size: 60px;
+    z-index: 4;
+    transform-origin: bottom;
+    animation: wave 3s ease-in-out infinite alternate;
+}
+
+@keyframes wave {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+}
+
+/* Đá */
+.rock {
+    position: absolute;
+    bottom: 20px;
+    font-size: 30px;
+    z-index: 4;
+}
+
+/* Cát */
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background: #e4c58b;
+    z-index: 3;
+}
+
+/* Trang trí */
+.plant {
+    position: absolute;
+    bottom: 22px;
+    left: 45%;
+    font-size: 55px;
+    z-index: 4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="aquarium">
+
+    <div class="light"></div>
+
+    <div class="title">
+        🐠 MY AQUARIUM 🐠
+    </div>
+
+    <div class="swimming-area">
+
+        <!-- Cá cam -->
+        <div class="fish"
+             style="--w:85px; --speed:12s; --y:35px;">
+            <div class="fish-art">
+                <svg viewBox="0 0 100 55">
+                    <path d="M25 27 L5 10 L5 44 Z" fill="#ff8c42"/>
+                    <ellipse cx="52" cy="27" rx="30" ry="19" fill="#ffad42"/>
+                    <path d="M48 10 L62 0 L72 12 Z" fill="#ff8c42"/>
+                    <path d="M48 44 L62 54 L72 42 Z" fill="#ff8c42"/>
+                    <path d="M55 10 Q45 27 55 44"
+                          fill="none" stroke="#fff1cc" stroke-width="4"/>
+                    <circle cx="72" cy="22" r="4" fill="white"/>
+                    <circle cx="73" cy="22" r="2" fill="#222"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Cá hồng -->
+        <div class="fish"
+             style="--w:70px; --speed:16s; --y:135px;">
+            <div class="fish-art">
+                <svg viewBox="0 0 100 55">
+                    <path d="M25 27 L5 10 L5 44 Z" fill="#ed78b5"/>
+                    <ellipse cx="52" cy="27" rx="30" ry="19" fill="#ff9bcf"/>
+                    <path d="M48 10 L62 0 L72 12 Z" fill="#ed78b5"/>
+                    <path d="M48 44 L62 54 L72 42 Z" fill="#ed78b5"/>
+                    <circle cx="72" cy="22" r="4" fill="white"/>
+                    <circle cx="73" cy="22" r="2" fill="#222"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Cá vàng -->
+        <div class="fish"
+             style="--w:95px; --speed:10s; --y:235px;">
+            <div class="fish-art">
+                <svg viewBox="0 0 100 55">
+                    <path d="M25 27 L5 10 L5 44 Z" fill="#e9b92e"/>
+                    <ellipse cx="52" cy="27" rx="30" ry="19" fill="#ffe05b"/>
+                    <path d="M48 10 L62 0 L72 12 Z" fill="#e9b92e"/>
+                    <path d="M48 44 L62 54 L72 42 Z" fill="#e9b92e"/>
+                    <path d="M55 10 Q45 27 55 44"
+                          fill="none" stroke="#fff6c4" stroke-width="4"/>
+                    <circle cx="72" cy="22" r="4" fill="white"/>
+                    <circle cx="73" cy="22" r="2" fill="#222"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Cá xanh -->
+        <div class="fish"
+             style="--w:65px; --speed:20s; --y:75px;">
+            <div class="fish-art">
+                <svg viewBox="0 0 100 55">
+                    <path d="M25 27 L5 10 L5 44 Z" fill="#42c8db"/>
+                    <ellipse cx="52" cy="27" rx="30" ry="19" fill="#73e5e8"/>
+                    <path d="M48 10 L62 0 L72 12 Z" fill="#42c8db"/>
+                    <path d="M48 44 L62 54 L72 42 Z" fill="#42c8db"/>
+                    <circle cx="72" cy="22" r="4" fill="white"/>
+                    <circle cx="73" cy="22" r="2" fill="#222"/>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bong bóng -->
+    <div class="bubble" style="left:12%; --speed:6s;"></div>
+    <div class="bubble" style="left:25%; --speed:8s; animation-delay:2s;"></div>
+    <div class="bubble" style="left:45%; --speed:7s; animation-delay:1s;"></div>
+    <div class="bubble" style="left:65%; --speed:9s; animation-delay:3s;"></div>
+    <div class="bubble" style="left:85%; --speed:6s; animation-delay:2s;"></div>
+
+    <!-- Rong biển -->
+    <div class="seaweed" style="left:5%;">🌿</div>
+    <div class="seaweed" style="left:20%;">🌱</div>
+    <div class="seaweed" style="left:78%;">🌿</div>
+    <div class="seaweed" style="left:92%;">🌱</div>
+
+    <!-- Đá -->
+    <div class="rock" style="left:35%;">🪨</div>
+    <div class="rock" style="left:55%;">🪨</div>
+    <div class="rock" style="left:68%;">🪨</div>
+
+    <div class="plant">🌿</div>
+
+    <!-- Đáy hồ -->
+    <div class="ground"></div>
+
+</div>
+
+</body>
+</html>
