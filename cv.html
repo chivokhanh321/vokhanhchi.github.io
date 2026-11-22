@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV | Vo Khanh Chi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 30px 15px;
+        }
+        .top-nav {
+            max-width: 850px;
+            margin: 0 auto 15px auto;
+        }
+        .back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #0284c7;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 14px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .back-link:hover {
+            background: #0284c7;
+            color: #ffffff;
+        }
+        .cv-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            overflow: hidden;
+        }
+        .cv-header {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: #ffffff;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .avatar-wrapper {
+            width: 145px;
+            height: 145px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.85);
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background-color: #cbd5e1;
+        }
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        .header-info h1 {
+            font-size: 2.1rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .header-info .subtitle {
+            font-size: 1.05rem;
+            color: #93c5fd;
+            font-weight: 500;
+        }
+        .cv-body {
+            padding: 40px;
+        }
+        .section {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-num {
+            color: #0284c7;
+            font-family: monospace;
+            font-size: 1.15rem;
+        }
+        .section p {
+            color: #475569;
+            margin-bottom: 10px;
+        }
+        .item-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        ul.custom-list {
+            list-style: none;
+            padding-left: 4px;
+        }
+        ul.custom-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+        ul.custom-list li::before {
+            content: "•";
+            color: #0284c7;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .badge-placeholder {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            font-style: italic;
+        }
+        .project-card {
+            background: #f8fafc;
+            border-left: 4px solid #0284c7;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+        }
+        .project-link {
+            color: #0284c7;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .project-link:hover {
+            text-decoration: underline;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .contact-item {
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+        .contact-item a {
+            color: #0284c7;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .cv-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .cv-body {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <div class="cv-container">
+        <!-- Header kèm hình ảnh -->
+        <div class="cv-header">
+            <div class="avatar-wrapper">
+                <!-- Lưu ý: Đặt file ảnh của bạn cùng thư mục và đặt tên là avatar.jpg -->
+                <img src="avatar.jpg" alt="Vo Khanh Chi">
+            </div>
+            <div class="header-info">
+                <h1>Vo Khanh Chi</h1>
+                <div class="subtitle">Information Technology Student — HCMUE</div>
+            </div>
+        </div>
+
+        <!-- Nội dung CV -->
+        <div class="cv-body">
+            <!-- 01 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">01 —</span> About Me</div>
+                <p>I am an Information Technology student at Ho Chi Minh City University of Education (HCMUE), currently pursuing my bachelor's degree from 2026 to 2030.</p>
+                <p>I am at the beginning of my journey in technology, exploring programming and web development while building my knowledge through academic exercises and personal projects.</p>
+                <p>I hope to continuously improve my technical skills, gain practical experience, and create useful projects.</p>
+            </div>
+
+            <!-- 02 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">02 —</span> Education</div>
+                <div class="item-title">Ho Chi Minh City University of Education (HCMUE)</div>
+                <ul class="custom-list">
+                    <li><strong>Major:</strong> Information Technology</li>
+                    <li><strong>Academic period:</strong> 2026 – 2030</li>
+                </ul>
+            </div>
+
+            <!-- 03 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">03 —</span> Technical Skills</div>
+                <p>Currently developing my technical foundation.</p>
+                <ul class="custom-list">
+                    <li><strong>Programming:</strong> <span class="badge-placeholder">[To be updated]</span></li>
+                    <li><strong>Web Development:</strong> <span class="badge-placeholder">[To be updated]</span></li>
+                    <li><strong>Tools & Software:</strong> <span class="badge-placeholder">[To be updated]</span></li>
+                </ul>
+            </div>
+
+            <!-- 04 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">04 —</span> Projects & Academic Exercises</div>
+                <div class="project-card">
+                    <div class="item-title">Aquarium Website</div>
+                    <ul class="custom-list">
+                        <li><strong>Description:</strong> A simple aquarium-themed website featuring animated fish and an underwater environment.</li>
+                        <li><strong>Technologies:</strong> HTML, CSS, JavaScript</li>
+                        <li><strong>Project link:</strong> <a href="aquarium.html" class="project-link">View Live Aquarium Demo</a> <span class="badge-placeholder">[Add GitHub Pages link]</span></li>
+                    </ul>
+                </div>
+                <div class="item-title">Other Academic Projects</div>
+                <ul class="custom-list">
+                    <li>More projects coming soon!</li>
+                </ul>
+            </div>
+
+            <!-- 05 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">05 —</span> Languages</div>
+                <ul class="custom-list">
+                    <li><strong>Vietnamese</strong> — Native</li>
+                    <li><strong>English</strong> — <span class="badge-placeholder">[Proficiency level to be updated]</span></li>
+                </ul>
+            </div>
+
+            <!-- 06 -->
+            <div class="section">
+                <div class="section-title"><span class="section-num">06 —</span> Contact</div>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <strong>Email:</strong><br>
+                        <a href="mailto:chivokhanh321@gmail.com">chivokhanh321@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Phone:</strong><br>
+                        <a href="tel:0352062875">0352062875</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>GitHub:</strong><br>
+                        <a href="https://github.com/chivokhanh321" target="_blank">github.com/chivokhanh321</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

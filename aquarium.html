@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquarium Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+            background: linear-gradient(180deg, #0284c7 0%, #0369a1 40%, #0c4a6e 85%, #082f49 100%);
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+        }
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        .add-fish-btn {
+            padding: 10px 18px;
+            background: #f59e0b;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+        .add-fish-btn:hover {
+            background: #d97706;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">← Trang chủ</a>
+    <div class="controls">
+        <button class="add-fish-btn" onclick="spawnFish()">+ Thả thêm cá</button>
+    </div>
+
+    <canvas id="aquariumCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('aquariumCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Bảng màu cho các loài cá
+        const fishPalettes = [
+            { body: '#ff6b6b', fin: '#ffe66d', stripe: '#ffffff' }, // Cá hề đỏ vàng
+            { body: '#4ecdc4', fin: '#1a535c', stripe: '#f7fff7' }, // Cá xanh ngọc
+            { body: '#ff9f1c', fin: '#ffbf69', stripe: '#ffffff' }, // Cá vàng cam
+            { body: '#a855f7', fin: '#f472b6', stripe: '#fde047' }, // Cá tím hồng
+            { body: '#38bdf8', fin: '#0284c7', stripe: '#bae6fd' }  // Cá xanh biển
+        ];
+
+        class Fish {
+            constructor() {
+                this.radius = Math.random() * 18 + 22; // Kích thước cá
+                this.x = Math.random() * (width - 150) + 75;
+                this.y = Math.random() * (height - 180) + 70;
+                // Tốc độ và hướng bơi ngang (vx > 0: bơi sang phải, vx < 0: bơi sang trái)
+                this.vx = (Math.random() * 2.2 + 1.2) * (Math.random() < 0.5 ? 1 : -1);
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.palette = fishPalettes[Math.floor(Math.random() * fishPalettes.length)];
+                this.tailAngle = 0;
+                this.tailSpeed = Math.random() * 0.12 + 0.12;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Nhịp vẫy đuôi
+                this.tailAngle += this.tailSpeed;
+
+                // Kiểm tra chạm viền trái / phải -> Đảo chiều vận tốc để flip con cá
+                const marginX = this.radius * 1.4;
+                if (this.x + marginX >= width) {
+                    this.x = width - marginX;
+                    this.vx = -Math.abs(this.vx); // Quay đầu sang trái
+                } else if (this.x - marginX <= 0) {
+                    this.x = marginX;
+                    this.vx = Math.abs(this.vx);  // Quay đầu sang phải
+                }
+
+                // Kiểm tra chạm viền trên / dưới (chừa đáy cát)
+                const marginTop = this.radius;
+                const marginBottom = height - 70 - this.radius;
+                if (this.y <= marginTop) {
+                    this.y = marginTop;
+                    this.vy = Math.abs(this.vy);
+                } else if (this.y >= marginBottom) {
+                    this.y = marginBottom;
+                    this.vy = -Math.abs(this.vy);
+                }
+
+                // Thỉnh thoảng đổi nhẹ độ cao bơi cho tự nhiên
+                if (Math.random() < 0.01) {
+                    this.vy = (Math.random() - 0.5) * 1.2;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+
+                // FLIP CON CÁ: Mặc định vẽ cá hướng sang phải. Nếu vx < 0 thì lật ngược trục X
+                if (this.vx < 0) {
+                    ctx.scale(-1, 1);
+                }
+
+                const r = this.radius;
+                const wag = Math.sin(this.tailAngle) * (r * 0.25);
+
+                // Vẽ đuôi cá vẫy
+                ctx.fillStyle = this.palette.fin;
+                ctx.beginPath();
+                ctx.moveTo(-r * 0.9, 0);
+                ctx.lineTo(-r * 1.6, -r * 0.55 + wag);
+                ctx.lineTo(-r * 1.45, 0);
+                ctx.lineTo(-r * 1.6, r * 0.55 + wag);
+                ctx.closePath();
+                ctx.fill();
+
+                // Vẽ vây lưng
+                ctx.beginPath();
+                ctx.moveTo(-r * 0.2, -r * 0.55);
+                ctx.quadraticCurveTo(0, -r * 1.05, r * 0.35, -r * 0.45);
+                ctx.fill();
+
+                // Vẽ thân cá
+                ctx.fillStyle = this.palette.body;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, r * 1.1, r * 0.62, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Vẽ sọc trang trí trên thân
+                ctx.fillStyle = this.palette.stripe;
+                ctx.beginPath();
+                ctx.ellipse(-r * 0.15, 0, r * 0.14, r * 0.58, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Vẽ mắt cá
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(r * 0.55, -r * 0.15, r * 0.18, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#0f172a';
+                ctx.beginPath();
+                ctx.arc(r * 0.6, -r * 0.15, r * 0.09, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        // Bong bóng nước
+        class Bubble {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height - 40;
+                this.radius = Math.random() * 5 + 2;
+                this.speed = Math.random() * 1.5 + 0.6;
+                this.wobble = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speed;
+                this.wobble += 0.04;
+                this.x += Math.sin(this.wobble) * 0.5;
+                if (this.y < -10) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // Vẽ nền cát và rong biển dưới đáy hồ
+        function drawSeabed() {
+            // Đáy cát
+            ctx.fillStyle = '#d97706';
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            ctx.lineTo(0, height - 45);
+            ctx.quadraticCurveTo(width * 0.25, height - 65, width * 0.5, height - 45);
+            ctx.quadraticCurveTo(width * 0.75, height - 25, width, height - 50);
+            ctx.lineTo(width, height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Rong biển đung đưa
+            const time = Date.now() * 0.002;
+            const weedPositions = [0.08, 0.12, 0.35, 0.68, 0.85, 0.9];
+            ctx.strokeStyle = '#15803d';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+
+            weedPositions.forEach((pos, idx) => {
+                const baseX = width * pos;
+                const baseY = height - 40;
+                const sway = Math.sin(time + idx) * 18;
+                ctx.beginPath();
+                ctx.moveTo(baseX, baseY);
+                ctx.quadraticCurveTo(baseX - sway, baseY - 60, baseX + sway, baseY - 120);
+                ctx.stroke();
+            });
+        }
+
+        const fishes = Array.from({ length: 9 }, () => new Fish());
+        const bubbles = Array.from({ length: 30 }, () => new Bubble());
+
+        function spawnFish() {
+            fishes.push(new Fish());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Vẽ ánh sáng mặt nước chiếu xuống
+            const grad = ctx.createRadialGradient(width / 2, 0, 50, width / 2, 0, width * 0.7);
+            grad.addColorStop(0, 'rgba(255, 255, 255, 0.18)');
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+
+            drawSeabed();
+
+            bubbles.forEach(b => {
+                b.update();
+                b.draw();
+            });
+
+            fishes.forEach(f => {
+                f.update();
+                f.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Võ Khánh Chi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 750px;
+            width: 100%;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: #38bdf8;
+        }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
+            border-radius: 8px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .card:hover .btn {
+            background: #7dd3fc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Welcome to My Workspace</h1>
+        <p>Chọn một dự án bên dưới để khám phá</p>
+    </div>
+
+    <div class="cards-container">
+        <!-- Đường dẫn 1: Hồ cá -->
+        <a href="aquarium.html" class="card">
+            <div>
+                <div class="card-icon">🐠</div>
+                <h2>01. Aquarium Simulation</h2>
+                <p>Mô phỏng hồ cá đại dương với nhiều loài cá bơi tự do, tự động xoay đầu (flip) mượt mà khi chạm viền màn hình kèm bong bóng nước.</p>
+            </div>
+            <span class="btn">Mở Hồ Cá →</span>
+        </a>
+
+        <!-- Đường dẫn 2: CV cá nhân -->
+        <a href="cv.html" class="card">
+            <div>
+                <div class="card-icon">👩‍💻</div>
+                <h2>02. Personal CV</h2>
+                <p>Hồ sơ cá nhân, thông tin học vấn tại Đại học Sư phạm TP.HCM (HCMUE), kỹ năng lập trình và thông tin liên hệ.</p>
+            </div>
+            <span class="btn">Xem CV của tôi →</span>
+        </a>
+    </div>
+
+</body>
+</html>
